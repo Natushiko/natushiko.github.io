@@ -3,167 +3,33 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ page.title }} - {{ site.title }}</title>
+    <title>{% if page.title %}{{ page.title }} - {% endif %}{{ site.title }}</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-            line-height: 1.6;
-            color: #333;
-            background: #f5f5f5;
+            line-height: 1.7; color: #2c3e50; background: #ffffff;
         }
-        
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-        
+        .container { max-width: 1000px; margin: 0 auto; padding: 30px 20px; }
         header {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 60px 0;
-            text-align: center;
-            margin-bottom: 40px;
+            text-align: center; padding: 80px 0 60px; border-bottom: 1px solid #eaeaea;
+            margin-bottom: 50px;
         }
-        
-        header h1 {
-            font-size: 3em;
-            margin-bottom: 10px;
-        }
-        
+        header h1 { font-size: 2.5em; font-weight: 300; letter-spacing: 2px; color: #2c3e50; }
         header .subtitle {
-            font-size: 1.5em;
-            opacity: 0.9;
-            margin-bottom: 10px;
+            font-size: 1.2em; color: #7f8c8d; font-weight: 300; margin-top: 10px;
         }
-        
         header .description {
-            font-size: 1.1em;
-            opacity: 0.8;
+            font-size: 1em; color: #95a5a6; margin-top: 15px; font-weight: 300;
         }
-        
         .time-info {
-            background: white;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            margin-bottom: 30px;
-            text-align: center;
+            text-align: center; padding: 20px; margin-bottom: 40px; font-size: 0.95em;
+            color: #7f8c8d; background: #f9f9f9; border-radius: 8px;
         }
-        
-        .time-info span {
-            margin: 0 15px;
-            font-size: 1.1em;
-        }
-        
-        .content-grid {
-            display: grid;
-            grid-template-columns: 1fr 2fr 1fr;
-            gap: 30px;
-            margin-bottom: 40px;
-        }
-        
-        .panel {
-            background: white;
-            padding: 25px;
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-        }
-        
-        .panel h2 {
-            color: #667eea;
-            margin-bottom: 20px;
-            padding-bottom: 10px;
-            border-bottom: 2px solid #eee;
-        }
-        
-        .category-list, .tag-cloud {
-            list-style: none;
-        }
-        
-        .category-list li, .tag-item {
-            padding: 8px 0;
-            border-bottom: 1px solid #f0f0f0;
-        }
-        
-        .category-list a, .tag-item a {
-            color: #333;
-            text-decoration: none;
-            display: block;
-            transition: color 0.3s;
-        }
-        
-        .category-list a:hover, .tag-item a:hover {
-            color: #667eea;
-        }
-        
-        .tag-item {
-            display: inline-block;
-            margin: 5px;
-            background: #f0f0f0;
-            padding: 5px 12px;
-            border-radius: 15px;
-            font-size: 0.9em;
-        }
-        
-        .recent-posts .post-item {
-            padding: 15px 0;
-            border-bottom: 1px solid #f0f0f0;
-        }
-        
-        .recent-posts .post-item:last-child {
-            border-bottom: none;
-        }
-        
-        .recent-posts h3 {
-            margin-bottom: 5px;
-        }
-        
-        .recent-posts h3 a {
-            color: #333;
-            text-decoration: none;
-            font-size: 1.1em;
-        }
-        
-        .recent-posts h3 a:hover {
-            color: #667eea;
-        }
-        
-        .post-meta {
-            color: #666;
-            font-size: 0.9em;
-            margin-top: 5px;
-        }
-        
-        .post-meta span {
-            margin-right: 15px;
-        }
-        
+        .time-info span { margin: 0 25px; }
         footer {
-            text-align: center;
-            padding: 30px 0;
-            color: #666;
-            border-top: 1px solid #eee;
-        }
-        
-        @media (max-width: 768px) {
-            .content-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            header h1 {
-                font-size: 2em;
-            }
-            
-            header .subtitle {
-                font-size: 1.2em;
-            }
+            text-align: center; padding: 50px 0 30px; color: #95a5a6;
+            font-size: 0.9em; border-top: 1px solid #eaeaea; margin-top: 60px;
         }
     </style>
 </head>
@@ -178,66 +44,57 @@
 
     <div class="container">
         <div class="time-info">
-            <span>🕐 北京时间: <span id="beijing-time"></span></span>
-            <span>⏱️ 网站运行: <span id="site-runtime"></span></span>
+            <span>🕐 北京时间: <span id="beijing-time">加载中...</span></span>
+            <span>⏱️ 网站运行: <span id="site-runtime">计算中...</span></span>
         </div>
 
         {{ content }}
     </div>
 
     <footer>
-        <p>© {{ site.time | date: '%Y' }} {{ site.author }}. All rights reserved.</p>
+        <p>© 2025 {{ site.author }}. All rights reserved.</p>
     </footer>
 
     <script>
-        // 北京时间显示
-function updateBeijingTime() {
-    const now = new Date();
-    const options = {
-        timeZone: 'Asia/Shanghai',
-        year: 'numeric',
-        month: '2-digit',
-        day: '2-digit',
-        hour: '2-digit',
-        minute: '2-digit',
-        second: '2-digit',
-        hour12: false
-    };
-    const timeString = new Intl.DateTimeFormat('zh-CN', options).format(now);
-    document.getElementById('beijing-time').textContent = timeString;
-}
+        // 北京时间
+        function updateBeijingTime() {
+            const now = new Date();
+            const options = {
+                timeZone: 'Asia/Shanghai',
+                year: 'numeric', month: '2-digit', day: '2-digit',
+                hour: '2-digit', minute: '2-digit', second: '2-digit',
+                hour12: false
+            };
+            const timeString = new Intl.DateTimeFormat('zh-CN', options).format(now);
+            document.getElementById('beijing-time').textContent = timeString;
+        }
 
-// 确保DOM加载完成后再执行
-document.addEventListener('DOMContentLoaded', function() {
-    updateBeijingTime();
-    setInterval(updateBeijingTime, 1000);
-    
-    updateSiteRuntime();
-    setInterval(updateSiteRuntime, 60000);
-});
+        // 网站运行时间
+        function updateSiteRuntime() {
+            const startDate = new Date('2025-12-01T00:00:00');
+            const now = new Date();
+            const diff = now - startDate;
+            
+            if (diff < 0) {
+                document.getElementById('site-runtime').textContent = '即将上线';
+                return;
+            }
+            
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            
+            document.getElementById('site-runtime').textContent = 
+                (days > 0 ? `${days}天 ` : '') + 
+                (hours > 0 || days > 0 ? `${hours}小时 ` : '') + 
+                `${minutes}分钟`;
+        }
 
-// 网站运行时间计算 (从2025年12月1日开始)
-function updateSiteRuntime() {
-    const startDate = new Date('2025-12-01T00:00:00+08:00'); // 明确指定时区
-    const now = new Date();
-    const diff = now - startDate;
-    
-    if (diff < 0) {
-        document.getElementById('site-runtime').textContent = '网站即将上线';
-        return;
-    }
-    
-    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-    const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-    const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-    
-    let runtimeString = '';
-    if (days > 0) runtimeString += `${days}天 `;
-    if (hours > 0 || days > 0) runtimeString += `${hours}小时 `;
-    runtimeString += `${minutes}分钟`;
-    
-    document.getElementById('site-runtime').textContent = runtimeString;
-}
+        // 初始化
+        document.addEventListener('DOMContentLoaded', function() {
+            updateBeijingTime(); setInterval(updateBeijingTime, 1000);
+            updateSiteRuntime(); setInterval(updateSiteRuntime, 60000);
+        });
     </script>
 </body>
 </html>
