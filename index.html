@@ -81,7 +81,7 @@ body {
   gap: 25px;
 }
 
-/* 边栏面板 - 热门标签（上）和文章分类（下） */
+/* 边栏面板 */
 .sidebar .panel {
   background: rgba(255, 253, 248, 0.85);
   padding: 25px;
@@ -141,8 +141,7 @@ body {
 .category-list a {
   color: #5c3d2e;
   text-decoration: none;
-  display: flex;
-  justify-content: space-between;
+  display: block;
   transition: all 0.3s;
   padding: 5px;
   border-radius: 3px;
@@ -259,7 +258,7 @@ body {
 /* 响应式设计 */
 @media (max-width: 768px) {
   .main-container {
-    grid-template-columns: 1fr; /* 移动端变为单列 */
+    grid-template-columns: 1fr; /* 移动端单列 */
   }
   
   .site-header h1 {
@@ -310,7 +309,7 @@ footer {
         {% for tag in site.tags %}
         <span class="tag-item">
           <a href="#tag-{{ tag[0] | slugify }}" data-target="tag-{{ tag[0] | slugify }}" style="color: #5c3e2e;">
-            {{ tag[0] }} <span>({{ tag[1].size }})</span>
+            {{ tag[0] }} <!-- 移除数量显示 -->
           </a>
         </span>
         {% endfor %}
@@ -324,8 +323,7 @@ footer {
         {% for category in site.categories %}
         <li>
           <a href="#category-{{ category[0] | slugify }}" data-target="category-{{ category[0] | slugify }}">
-            {{ category[0] }} 
-            <span style="color: #8b4513; font-size: 0.9em;">({{ category[1].size }})</span>
+            {{ category[0] }} <!-- 移除数量显示 -->
           </a>
         </li>
         {% endfor %}
