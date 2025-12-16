@@ -1,13 +1,12 @@
-# 网站基本配置
 title: 曲处同幽静
 description: 记录美好生活
 author: JC老师
 github_username: Natushiko
 
-# 使用 tactile 主题
-theme: jekyll-theme-tactile
-
 # Jekyll 配置
 markdown: kramdown
 highlighter: rouge
 permalink: /:year/:month/:day/:title/
+
+# 分页 (每页文章数)
+paginate: 5
