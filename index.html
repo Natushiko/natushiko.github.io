@@ -1,164 +1,204 @@
 ---
-layout: default
-title: 首页
+# 这是一个独立的HTML文件，不使用Jekyll布局
 ---
 
-<!-- 弹出内容显示区域（在最新文章上方） -->
-<div id="popup-container" style="margin-bottom: 30px;">
-    {% for category in site.categories %}
-    <div id="category-{{ category[0] | slugify }}" style="display: none;">
-        <div class="panel">
-            <h2>分类: {{ category[0] }}</h2>
-            <a href="#" onclick="hidePopup('category-{{ category[0] | slugify }}'); return false;" style="float: right; color: #999; text-decoration: none;">✕ 关闭</a>
-            <div style="clear: both;"></div>
-            
-            {% for post in category[1] %}
-            <div class="post-item" style="margin: 20px 0; padding: 20px 0; border-bottom: 1px solid #f0f0f0;">
-                <h3 style="margin-bottom: 8px;">
-                    <a href="{{ post.url }}" style="color: #2c3e50; text-decoration: none; font-size: 1.1em;">{{ post.title }}</a>
-                </h3>
-                <div style="color: #666; font-size: 0.9em;">
-                    📅 {{ post.date | date: "%Y-%m-%d" }}
-                </div>
-            </div>
-            {% endfor %}
-        </div>
-    </div>
-    {% endfor %}
-    
-    {% for tag in site.tags %}
-    <div id="tag-{{ tag[0] | slugify }}" style="display: none;">
-        <div class="panel">
-            <h2>标签: {{ tag[0] }}</h2>
-            <a href="#" onclick="hidePopup('tag-{{ tag[0] | slugify }}'); return false;" style="float: right; color: #999; text-decoration: none;">✕ 关闭</a>
-            <div style="clear: both;"></div>
-            
-            {% for post in tag[1] %}
-            <div class="post-item" style="margin: 20px 0; padding: 20px 0; border-bottom: 1px solid #f0f0f0;">
-                <h3 style="margin-bottom: 8px;">
-                    <a href="{{ post.url }}" style="color: #2c3e50; text-decoration: none; font-size: 1.1em;">{{ post.title }}</a>
-                </h3>
-                <div style="color: #666; font-size: 0.9em;">
-                    📅 {{ post.date | date: "%Y-%m-%d" }}
-                </div>
-            </div>
-            {% endfor %}
-        </div>
-    </div>
-    {% endfor %}
-</div>
-
-<div class="content-grid">
-    <!-- 左侧: 文章分类 -->
-    <div class="panel">
-        <h2>📂 文章分类</h2>
-        <ul class="category-list">
-            {% for category in site.categories %}
-            <li>
-                <a href="#category-{{ category[0] | slugify }}" data-target="category-{{ category[0] | slugify }}">
-                    {{ category[0] }} 
-                    <span style="color: #999; font-size: 0.9em;">({{ category[1].size }})</span>
-                </a>
-            </li>
-            {% endfor %}
-        </ul>
-    </div>
-
-    <!-- 中间: 热门标签 -->
-    <div class="panel">
-        <h2>🏷️ 热门标签</h2>
-        <div class="tag-cloud">
-            {% for tag in site.tags %}
-            <span class="tag-item">
-                <a href="#tag-{{ tag[0] | slugify }}" data-target="tag-{{ tag[0] | slugify }}" style="color: #333;">
-                    {{ tag[0] }} 
-                    <span style="color: #999;">({{ tag[1].size }})</span>
-                </a>
-            </span>
-            {% endfor %}
-        </div>
-    </div>
-
-    <!-- 右侧: 最新文章 -->
-    <div class="panel">
-        <h2>📝 最新文章</h2>
-        <div class="recent-posts">
-            {% for post in site.posts limit:3 %}
-            <div class="post-item">
-                <h3><a href="{{ post.url }}">{{ post.title }}</a></h3>
-                <div class="post-meta">
-                    <span>📅 {{ post.date | date: "%Y-%m-%d" }}</span>
-                    <span>✍️ {{ site.author }}</span>
-                </div>
-                {% if post.categories.size > 0 %}
-                <div class="post-meta">
-                    <span>🏷️ 分类: 
-                        {% for category in post.categories %}
-                        <a href="#category-{{ category | slugify }}" style="color: #3498db;">{{ category }}</a>{% unless forloop.last %}, {% endunless %}
-                        {% endfor %}
-                    </span>
-                </div>
-                {% endif %}
-                {% if post.tags.size > 0 %}
-                <div class="post-meta">
-                    <span>🔖 标签: 
-                        {% for tag in post.tags %}
-                        <a href="#tag-{{ tag | slugify }}" style="color: #3498db;">{{ tag }}</a>{% unless forloop.last %}, {% endunless %}
-                        {% endfor %}
-                    </span>
-                </div>
-                {% endif %}
-                <p style="margin-top: 10px; color: #666;">
-                    {{ post.excerpt | strip_html | truncatewords: 20 }}
-                </p>
-            </div>
-            {% endfor %}
-        </div>
-    </div>
-</div>
-
-<script>
-// 隐藏所有弹出内容
-function hidePopup(id) {
-    document.getElementById(id).style.display = 'none';
-}
-
-// 显示指定弹出内容并滚动到顶部
-function showPopup(id) {
-    // 隐藏所有其他弹出内容
-    document.querySelectorAll('#popup-container > div').forEach(el => {
-        el.style.display = 'none';
-    });
-    
-    // 显示目标弹出内容
-    const targetElement = document.getElementById(id);
-    if (targetElement) {
-        targetElement.style.display = 'block';
-        // 滚动到页面顶部
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-}
-
-// 页面加载完成后初始化
-document.addEventListener('DOMContentLoaded', function() {
-    // 检查URL锚点
-    if (window.location.hash) {
-        const hash = window.location.hash.substring(1);
-        if (hash.startsWith('category-') || hash.startsWith('tag-')) {
-            showPopup(hash);
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>曲处同幽静 - 柳暗花明又一村</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            line-height: 1.7; color: #2c3e50; background: #ffffff;
         }
-    }
-    
-    // 绑定分类和标签链接的点击事件
-    document.querySelectorAll('.category-list a, .tag-cloud a, .recent-posts a[href^="#"]').forEach(link => {
-        link.addEventListener('click', function(e) {
-            const href = this.getAttribute('href');
-            if (href && href.startsWith('#')) {
-                e.preventDefault();
-                const targetId = href.substring(1);
-                showPopup(targetId);
+        .container { max-width: 1000px; margin: 0 auto; padding: 30px 20px; }
+        header {
+            text-align: center; padding: 80px 0 60px; border-bottom: 1px solid #eaeaea;
+        }
+        header h1 { font-size: 2.5em; font-weight: 300; letter-spacing: 2px; color: #2c3e50; }
+        header .subtitle {
+            font-size: 1.2em; color: #7f8c8d; font-weight: 300; margin-top: 10px;
+        }
+        header .description {
+            font-size: 1em; color: #95a5a6; margin-top: 15px; font-weight: 300;
+        }
+        .time-info {
+            text-align: center; padding: 20px; margin: 40px 0; font-size: 0.95em;
+            color: #7f8c8d; background: #f9f9f9; border-radius: 8px;
+        }
+        .time-info span { margin: 0 25px; }
+        .content-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 30px; }
+        .panel { background: #ffffff; padding: 25px; border-radius: 8px; border: 1px solid #eaeaea; }
+        .panel h2 { color: #2c3e50; margin-bottom: 20px; padding-bottom: 10px; border-bottom: 1px solid #eee; }
+        .category-list, .tag-cloud { list-style: none; }
+        .category-list li { padding: 10px 0; border-bottom: 1px solid #f5f5f5; }
+        .category-list a, .tag-item a { color: #34495e; text-decoration: none; }
+        .category-list a:hover, .tag-item a:hover { color: #3498db; }
+        .tag-item {
+            display: inline-block; margin: 5px; background: #f0f0f0;
+            padding: 5px 12px; border-radius: 15px; font-size: 0.9em;
+        }
+        .recent-posts .post-item { padding: 20px 0; border-bottom: 1px solid #f0f0f0; }
+        .recent-posts h3 { margin-bottom: 8px; }
+        .recent-posts h3 a { color: #2c3e50; text-decoration: none; }
+        .recent-posts h3 a:hover { color: #3498db; }
+        .post-meta { color: #666; font-size: 0.9em; margin-top: 10px; }
+        .popup-content {
+            display: none; background: #fff; padding: 25px; border-radius: 8px;
+            border: 1px solid #eaeaea; margin-bottom: 30px;
+        }
+        .popup-content.active { display: block; }
+        .popup-content h2 { color: #2c3e50; margin-bottom: 20px; padding-bottom: 10px; border-bottom: 1px solid #eee; }
+        .close-btn {
+            float: right; color: #999; text-decoration: none; font-size: 1.2em;
+            cursor: pointer; padding: 5px;
+        }
+        .close-btn:hover { color: #e74c3c; }
+        footer {
+            text-align: center; padding: 50px 0 30px; color: #95a5a6;
+            font-size: 0.9em; border-top: 1px solid #eaeaea; margin-top: 60px;
+        }
+        @media (max-width: 768px) {
+            .content-grid { grid-template-columns: 1fr; }
+            header h1 { font-size: 2em; }
+            .time-info span { display: block; margin: 10px 0; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>曲处同幽静</h1>
+            <p class="subtitle">柳暗花明又一村</p>
+            <p class="description">记录美好生活</p>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="time-info">
+            <span>🕐 北京时间: <span id="beijing-time">加载中...</span></span>
+            <span>⏱️ 网站运行: <span id="site-runtime">计算中...</span></span>
+        </div>
+
+        <!-- 弹出内容区域 -->
+        <div id="popup-container"></div>
+
+        <!-- 主要内容网格 -->
+        <div class="content-grid">
+            <!-- 左侧: 文章分类 -->
+            <div class="panel">
+                <h2>📂 文章分类</h2>
+                <ul class="category-list">
+                    {% for category in site.categories %}
+                    <li>
+                        <a href="#" data-type="category" data-name="{{ category[0] }}">
+                            {{ category[0] }} <span>({{ category[1].size }})</span>
+                        </a>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+
+            <!-- 中间: 热门标签 -->
+            <div class="panel">
+                <h2>🏷️ 热门标签</h2>
+                <div class="tag-cloud">
+                    {% for tag in site.tags %}
+                    <span class="tag-item">
+                        <a href="#" data-type="tag" data-name="{{ tag[0] }}">
+                            {{ tag[0] }} <span>({{ tag[1].size }})</span>
+                        </a>
+                    </span>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <!-- 右侧: 最新文章 -->
+            <div class="panel">
+                <h2>📝 最新文章</h2>
+                <div class="recent-posts">
+                    {% for post in site.posts limit:3 %}
+                    <div class="post-item">
+                        <h3><a href="{{ post.url }}">{{ post.title }}</a></h3>
+                        <div class="post-meta">📅 {{ post.date | date: "%Y-%m-%d" }} | ✍️ JC老师</div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>© 2025 JC老师. All rights reserved.</p>
+    </footer>
+
+    <script>
+        // 北京时间
+        function updateBeijingTime() {
+            const now = new Date();
+            const options = { timeZone: 'Asia/Shanghai', year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false };
+            document.getElementById('beijing-time').textContent = new Intl.DateTimeFormat('zh-CN', options).format(now);
+        }
+
+        // 网站运行时间
+        function updateSiteRuntime() {
+            const diff = new Date() - new Date('2025-12-01T00:00:00');
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            document.getElementById('site-runtime').textContent = 
+                (days > 0 ? `${days}天 ` : '') + (hours > 0 || days > 0 ? `${hours}小时 ` : '') + `${minutes}分钟`;
+        }
+
+        // 显示弹出内容
+        function showContent(type, name) {
+            const container = document.getElementById('popup-container');
+            
+            // 获取数据
+            const data = type === 'category' ? 
+                {{ site.categories | jsonify }} : 
+                {{ site.tags | jsonify }};
+            const posts = data[name];
+            
+            if (!posts || posts.length === 0) {
+                container.innerHTML = `<div class="popup-content active"><h2>${type === 'category' ? '分类' : '标签'}: ${name}</h2><p style="color: #999;">暂无文章</p></div>`;
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+                return;
             }
+            
+            let html = `<div class="popup-content active"><h2>${type === 'category' ? '分类' : '标签'}: ${name}</h2>`;
+            html += `<a class="close-btn" onclick="this.closest('.popup-content').classList.remove('active')">✕</a>`;
+            html += `<div style="clear:both;"></div>`;
+            
+            posts.forEach(post => {
+                html += `<div style="margin: 15px 0; padding: 15px 0; border-bottom: 1px solid #f0f0f0;">
+                    <h3><a href="${post.url}" style="color: #2c3e50; text-decoration: none;">${post.title}</a></h3>
+                    <div style="color: #666; font-size: 0.9em;">📅 ${new Date(post.date).toLocaleDateString('zh-CN')}</div>
+                </div>`;
+            });
+            
+            html += `</div>`;
+            container.innerHTML = html;
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // 初始化
+        document.addEventListener('DOMContentLoaded', function() {
+            // 时间更新
+            updateBeijingTime(); setInterval(updateBeijingTime, 1000);
+            updateSiteRuntime(); setInterval(updateSiteRuntime, 60000);
+            
+            // 绑定点击事件
+            document.querySelectorAll('[data-type]').forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    showContent(this.dataset.type, this.dataset.name);
+                });
+            });
         });
-    });
-});
-</script>
+    </script>
+</body>
+</html>
