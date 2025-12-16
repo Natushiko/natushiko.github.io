@@ -6,21 +6,22 @@ title: 首页
 <style>
 /* 信纸背景 */
 body {
-  background-color: #f9f5e9;
+  background-color: #f9f5e9; /* 米黄色背景 */
   background-image: 
-    linear-gradient(rgba(255,255,255,0.9), rgba(255,255,255,0.9));
-  font-family: 'Noto Serif SC', 'SimSun', serif;
+    linear-gradient(rgba(255,255,255,0.9), rgba(255,255,255,0.9)),
+    url('https://www.transparenttextures.com/patterns/paper.png');
+  font-family: 'Noto Serif SC', 'SimSun', serif; /* 宋体/思源宋体，更有信纸感觉 */
   line-height: 1.8;
-  text-align: justify;
-  text-justify: inter-ideograph;
+  text-align: justify; /* 文字两边对齐 */
+  text-justify: inter-ideograph; /* 中文优化 */
 }
 
-/* 顶部北京时间 */
+/* 顶部北京时间 - 第一行居中 */
 .time-header {
   text-align: center;
   padding: 15px 0;
   font-size: 1.2em;
-  color: #8b4513;
+  color: #8b4513; /* 深棕色 */
   background: rgba(255,255,255,0.7);
   border-bottom: 1px solid #d4c5b9;
   margin-bottom: 30px;
@@ -33,21 +34,28 @@ body {
   text-shadow: 1px 1px 1px rgba(0,0,0,0.1);
 }
 
-/* 网站标题区 - 移除h1标题避免重复 */
+/* 网站标题区域 */
 .site-header {
   text-align: center;
-  padding: 20px 0 30px;
+  padding: 40px 0 30px;
   border-bottom: 2px solid #d4c5b9;
   margin-bottom: 40px;
 }
 
+.site-header h1 {
+  font-size: 2.8em;
+  color: #5c3d2e;
+  margin-bottom: 10px;
+  font-weight: normal;
+  letter-spacing: 5px;
+  font-family: 'STKaiti', 'KaiTi', serif; /* 楷体标题 */
+}
+
 .site-header .subtitle {
-  font-size: 1.8em; /* 增大副标题字号 */
+  font-size: 1.4em;
   color: #8b4513;
   font-style: italic;
   margin-bottom: 15px;
-  font-family: 'STKaiti', 'KaiTi', serif;
-  letter-spacing: 3px;
 }
 
 .site-header .description {
@@ -58,7 +66,7 @@ body {
   display: inline-block;
 }
 
-/* 三栏布局 */
+/* 三栏布局容器 */
 .content-grid {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
@@ -66,13 +74,18 @@ body {
   margin-bottom: 50px;
 }
 
-/* 面板样式 */
+/* 面板样式 - 信纸效果 */
 .panel {
   background: rgba(255, 253, 248, 0.85);
   padding: 25px;
   border-radius: 4px;
   border: 1px solid #e8dfd0;
   box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+  transition: all 0.3s ease;
+}
+
+.panel:hover {
+  box-shadow: 0 4px 10px rgba(0,0,0,0.08);
 }
 
 .panel h2 {
@@ -82,11 +95,11 @@ body {
   border-bottom: 1px solid #d4c5b9;
   font-family: 'STKaiti', 'KaiTi', serif;
   font-size: 1.4em;
-  text-align: left;
+  text-align: left; /* 标题左对齐 */
 }
 
-/* 分类和标签列表 */
-.category-list, .tag-cloud {
+/* 分类列表 */
+.category-list {
   list-style: none;
 }
 
@@ -95,17 +108,28 @@ body {
   border-bottom: 1px dashed #e8dfd0;
 }
 
+.category-list li:last-child {
+  border-bottom: none;
+}
+
 .category-list a {
   color: #5c3d2e;
   text-decoration: none;
-  display: block;
-  padding: 5px;
+  display: flex;
+  justify-content: space-between;
   transition: all 0.3s;
+  padding: 5px;
+  border-radius: 3px;
 }
 
 .category-list a:hover {
   background: rgba(139, 69, 19, 0.05);
   color: #8b4513;
+}
+
+/* 标签云 */
+.tag-cloud {
+  text-align: center; /* 标签居中显示 */
 }
 
 .tag-item {
@@ -139,10 +163,20 @@ body {
   border-bottom: 1px dashed #e8dfd0;
 }
 
+.recent-posts .post-item:last-child {
+  border-bottom: none;
+}
+
+.recent-posts h3 {
+  margin-bottom: 10px;
+  text-align: left; /* 标题左对齐 */
+}
+
 .recent-posts h3 a {
   color: #5c3d2e;
   text-decoration: none;
   font-size: 1.15em;
+  transition: color 0.3s;
 }
 
 .recent-posts h3 a:hover {
@@ -154,9 +188,10 @@ body {
   color: #8b4513;
   font-size: 0.9em;
   margin-top: 10px;
+  text-align: left; /* 元信息左对齐 */
 }
 
-/* 弹出内容 - 显示在顶部 */
+/* 弹出内容 - 信纸样式 */
 .popup-content {
   display: none;
   background: rgba(255, 253, 248, 0.95);
@@ -187,6 +222,7 @@ body {
   cursor: pointer;
   padding: 5px;
   border-radius: 50%;
+  transition: all 0.3s;
 }
 
 .close-btn:hover {
@@ -194,10 +230,21 @@ body {
   background: #8b4513;
 }
 
-/* 响应式 */
+/* 响应式设计 */
 @media (max-width: 768px) {
   .content-grid {
     grid-template-columns: 1fr;
+    gap: 25px;
+  }
+  
+  .site-header h1 {
+    font-size: 2em;
+    letter-spacing: 3px;
+  }
+  
+  .time-header {
+    font-size: 1em;
+    padding: 12px 0;
   }
 }
 
@@ -206,6 +253,7 @@ footer {
   text-align: center;
   padding: 40px 0 30px;
   color: #8b4513;
+  font-size: 0.9em;
   border-top: 1px solid #d4c5b9;
   margin-top: 60px;
 }
@@ -216,15 +264,15 @@ footer {
   🕐 北京时间: <span id="beijing-time">加载中...</span>
 </div>
 
-<!-- 移除重复的 <h1>{{ site.title }}</h1> -->
+<!-- 网站标题区 -->
 <header class="site-header">
+  <h1>{{ site.title }}</h1>
   <p class="subtitle">柳暗花明又一村</p>
   <p class="description">{{ site.description }}</p>
 </header>
 
-<!-- 弹出内容显示区域 - 补上缺失的分类和标签内容 -->
+<!-- 弹出内容显示区域 -->
 <div id="popup-container" style="margin-bottom: 30px;">
-    <!-- 分类弹出内容 -->
     {% for category in site.categories %}
     <div id="category-{{ category[0] | slugify }}" class="popup-content">
         <h2>分类: {{ category[0] }}</h2>
@@ -244,7 +292,6 @@ footer {
     </div>
     {% endfor %}
     
-    <!-- 标签弹出内容 -->
     {% for tag in site.tags %}
     <div id="tag-{{ tag[0] | slugify }}" class="popup-content">
         <h2>标签: {{ tag[0] }}</h2>
@@ -274,7 +321,8 @@ footer {
             {% for category in site.categories %}
             <li>
                 <a href="#category-{{ category[0] | slugify }}" data-target="category-{{ category[0] | slugify }}">
-                    {{ category[0] }} <!-- 移除数量显示 -->
+                    {{ category[0] }} 
+                    <span style="color: #8b4513; font-size: 0.9em;">({{ category[1].size }})</span>
                 </a>
             </li>
             {% endfor %}
@@ -288,7 +336,8 @@ footer {
             {% for tag in site.tags %}
             <span class="tag-item">
                 <a href="#tag-{{ tag[0] | slugify }}" data-target="tag-{{ tag[0] | slugify }}" style="color: #5c3e2e;">
-                    {{ tag[0] }} <!-- 移除数量显示 -->
+                    {{ tag[0] }} 
+                    <span style="color: #8b4513;">({{ tag[1].size }})</span>
                 </a>
             </span>
             {% endfor %}
@@ -299,7 +348,7 @@ footer {
     <div class="panel">
         <h2>📝 最新文章</h2>
         <div class="recent-posts">
-            {% for post in site.posts limit:5 %}
+            {% for post in site.posts limit:3 %}
             <div class="post-item">
                 <h3><a href="{{ post.url }}">{{ post.title }}</a></h3>
                 <div class="post-meta">
@@ -325,7 +374,7 @@ footer {
                 </div>
                 {% endif %}
                 <p style="margin-top: 12px; color: #5c3e2e; text-align: justify;">
-                    {{ post.excerpt | strip_html | truncatewords: 25 }}
+                    {{ post.excerpt | strip_html | truncatewords: 20 }}
                 </p>
             </div>
             {% endfor %}
