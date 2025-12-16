@@ -3,7 +3,7 @@ layout: default
 ---
 
 <style>
-/* 文章信纸背景 - 与首页一致 */
+/* 文章信纸背景 */
 body {
   background-color: #f9f5e9 !important;
   background-image: 
@@ -14,7 +14,63 @@ body {
   text-align: justify !important;
   text-justify: inter-ideograph !important;
 }
+
+/* 返回按钮 */
+.back-to-home {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 1000;
+}
+
+.back-to-home a {
+  display: inline-block;
+  padding: 8px 20px;
+  background: rgba(255,255,255,0.7);
+  border: 1px solid #d4c5b9;
+  border-radius: 4px;
+  color: #8b4513;
+  text-decoration: none;
+  font-family: 'STKaiti', 'KaiTi', serif;
+  font-size: 1em;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
+
+.back-to-home a:hover {
+  background: #8b4513;
+  color: #fff;
+  transform: translateY(-2px);
+}
+
+/* 隐藏自动生成的链接 */
+a[href="https://natushiko.github.io/"] {
+  display: none !important;
+  visibility: hidden !important;
+}
+
+/* 确保返回按钮不被隐藏 */
+.back-to-home a[href="/"] {
+  display: inline-block !important;
+  visibility: visible !important;
+}
+
+@media (max-width: 768px) {
+  .back-to-home {
+    top: 10px;
+    right: 10px;
+  }
+  
+  .back-to-home a {
+    padding: 6px 15px;
+    font-size: 0.9em;
+  }
+}
 </style>
+
+<div class="back-to-home">
+  <a href="/">返回</a>
+</div>
 
 <article class="post" style="background: rgba(255,253,248,0.85); padding: 40px; margin: 30px auto; max-width: 800px; border: 1px solid #e8dfd0; border-radius: 4px; box-shadow: 0 2px 8px rgba(0,0,0,0.05);">
   <header class="post-header" style="margin-bottom: 30px; padding-bottom: 20px; border-bottom: 1px dashed #d4c5b9;">
@@ -31,3 +87,28 @@ body {
     {{ content }}
   </div>
 </article>
+
+<script>
+// 确保移除自动生成的链接
+document.addEventListener('DOMContentLoaded', function() {
+  // 方法1: 按完整URL移除
+  const targetLink = document.querySelector('a[href="https://natushiko.github.io/"]');
+  if (targetLink) {
+    targetLink.remove();
+  }
+  
+  // 方法2: 按包含特定文本移除
+  document.querySelectorAll('a').forEach(link => {
+    if (link.textContent.includes('曲处通幽静')) {
+      link.remove();
+    }
+  });
+  
+  // 方法3: 按href包含github.io移除
+  document.querySelectorAll('a[href*="github.io"]').forEach(link => {
+    if (link.textContent.includes('曲处通幽静')) {
+      link.remove();
+    }
+  });
+});
+</script>
