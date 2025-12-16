@@ -3,14 +3,59 @@ layout: default
 title: 首页
 ---
 
+<!-- 弹出内容显示区域（在最新文章上方） -->
+<div id="popup-container" style="margin-bottom: 30px;">
+    {% for category in site.categories %}
+    <div id="category-{{ category[0] | slugify }}" style="display: none;">
+        <div class="panel">
+            <h2>分类: {{ category[0] }}</h2>
+            <a href="#" onclick="hidePopup('category-{{ category[0] | slugify }}'); return false;" style="float: right; color: #999; text-decoration: none;">✕ 关闭</a>
+            <div style="clear: both;"></div>
+            
+            {% for post in category[1] %}
+            <div class="post-item" style="margin: 20px 0; padding: 20px 0; border-bottom: 1px solid #f0f0f0;">
+                <h3 style="margin-bottom: 8px;">
+                    <a href="{{ post.url }}" style="color: #2c3e50; text-decoration: none; font-size: 1.1em;">{{ post.title }}</a>
+                </h3>
+                <div style="color: #666; font-size: 0.9em;">
+                    📅 {{ post.date | date: "%Y-%m-%d" }}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endfor %}
+    
+    {% for tag in site.tags %}
+    <div id="tag-{{ tag[0] | slugify }}" style="display: none;">
+        <div class="panel">
+            <h2>标签: {{ tag[0] }}</h2>
+            <a href="#" onclick="hidePopup('tag-{{ tag[0] | slugify }}'); return false;" style="float: right; color: #999; text-decoration: none;">✕ 关闭</a>
+            <div style="clear: both;"></div>
+            
+            {% for post in tag[1] %}
+            <div class="post-item" style="margin: 20px 0; padding: 20px 0; border-bottom: 1px solid #f0f0f0;">
+                <h3 style="margin-bottom: 8px;">
+                    <a href="{{ post.url }}" style="color: #2c3e50; text-decoration: none; font-size: 1.1em;">{{ post.title }}</a>
+                </h3>
+                <div style="color: #666; font-size: 0.9em;">
+                    📅 {{ post.date | date: "%Y-%m-%d" }}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
 <div class="content-grid">
-    <!-- 左侧: 分类列表 -->
+    <!-- 左侧: 文章分类 -->
     <div class="panel">
         <h2>📂 文章分类</h2>
         <ul class="category-list">
             {% for category in site.categories %}
             <li>
-                <a href="#category-{{ category[0] | slugify }}">
+                <a href="#category-{{ category[0] | slugify }}" data-target="category-{{ category[0] | slugify }}">
                     {{ category[0] }} 
                     <span style="color: #999; font-size: 0.9em;">({{ category[1].size }})</span>
                 </a>
@@ -19,7 +64,22 @@ title: 首页
         </ul>
     </div>
 
-    <!-- 中间: 最近3篇文章 -->
+    <!-- 中间: 热门标签 -->
+    <div class="panel">
+        <h2>🏷️ 热门标签</h2>
+        <div class="tag-cloud">
+            {% for tag in site.tags %}
+            <span class="tag-item">
+                <a href="#tag-{{ tag[0] | slugify }}" data-target="tag-{{ tag[0] | slugify }}" style="color: #333;">
+                    {{ tag[0] }} 
+                    <span style="color: #999;">({{ tag[1].size }})</span>
+                </a>
+            </span>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- 右侧: 最新文章 -->
     <div class="panel">
         <h2>📝 最新文章</h2>
         <div class="recent-posts">
@@ -55,91 +115,48 @@ title: 首页
             {% endfor %}
         </div>
     </div>
-
-    <!-- 右侧: 标签云 -->
-    <div class="panel">
-        <h2>🏷️ 热门标签</h2>
-        <div class="tag-cloud">
-            {% for tag in site.tags %}
-            <span class="tag-item">
-                <a href="#tag-{{ tag[0] | slugify }}" style="color: #333;">
-                    {{ tag[0] }} 
-                    <span style="color: #999;">({{ tag[1].size }})</span>
-                </a>
-            </span>
-            {% endfor %}
-        </div>
-    </div>
 </div>
-
-<!-- 分类详情展开区域 -->
-{% for category in site.categories %}
-<div id="category-{{ category[0] | slugify }}" style="display: none; margin-top: 40px;">
-    <div class="panel">
-        <h2>分类: {{ category[0] }}</h2>
-        <a href="#" onclick="document.getElementById('category-{{ category[0] | slugify }}').style.display='none'; return false;" style="float: right;">关闭</a>
-        <div style="clear: both;"></div>
-        
-        {% for post in category[1] %}
-        <div class="post-item" style="margin: 20px 0; padding: 20px; border-bottom: 1px solid #f0f0f0;">
-            <h3><a href="{{ post.url }}">{{ post.title }}</a></h3>
-            <div style="color: #666; font-size: 0.9em; margin-top: 10px;">
-                📅 {{ post.date | date: "%Y-%m-%d" }}
-            </div>
-        </div>
-        {% endfor %}
-    </div>
-</div>
-{% endfor %}
-
-<!-- 标签详情展开区域 -->
-{% for tag in site.tags %}
-<div id="tag-{{ tag[0] | slugify }}" style="display: none; margin-top: 40px;">
-    <div class="panel">
-        <h2>标签: {{ tag[0] }}</h2>
-        <a href="#" onclick="document.getElementById('tag-{{ tag[0] | slugify }}').style.display='none'; return false;" style="float: right;">关闭</a>
-        <div style="clear: both;"></div>
-        
-        {% for post in tag[1] %}
-        <div class="post-item" style="margin: 20px 0; padding: 20px; border-bottom: 1px solid #f0f0f0;">
-            <h3><a href="{{ post.url }}">{{ post.title }}</a></h3>
-            <div style="color: #666; font-size: 0.9em; margin-top: 10px;">
-                📅 {{ post.date | date: "%Y-%m-%d" }}
-            </div>
-        </div>
-        {% endfor %}
-    </div>
-</div>
-{% endfor %}
 
 <script>
-// 处理锚点点击显示
+// 隐藏所有弹出内容
+function hidePopup(id) {
+    document.getElementById(id).style.display = 'none';
+}
+
+// 显示指定弹出内容并滚动到顶部
+function showPopup(id) {
+    // 隐藏所有其他弹出内容
+    document.querySelectorAll('#popup-container > div').forEach(el => {
+        el.style.display = 'none';
+    });
+    
+    // 显示目标弹出内容
+    const targetElement = document.getElementById(id);
+    if (targetElement) {
+        targetElement.style.display = 'block';
+        // 滚动到页面顶部
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+}
+
+// 页面加载完成后初始化
 document.addEventListener('DOMContentLoaded', function() {
-    // 检查URL中是否有锚点
+    // 检查URL锚点
     if (window.location.hash) {
-        const element = document.querySelector(window.location.hash);
-        if (element) {
-            element.style.display = 'block';
-            element.scrollIntoView({ behavior: 'smooth' });
+        const hash = window.location.hash.substring(1);
+        if (hash.startsWith('category-') || hash.startsWith('tag-')) {
+            showPopup(hash);
         }
     }
     
-    // 为所有分类和标签链接添加点击事件
-    document.querySelectorAll('.category-list a, .tag-cloud a').forEach(link => {
+    // 绑定分类和标签链接的点击事件
+    document.querySelectorAll('.category-list a, .tag-cloud a, .recent-posts a[href^="#"]').forEach(link => {
         link.addEventListener('click', function(e) {
-            const targetId = this.getAttribute('href');
-            if (targetId.startsWith('#')) {
+            const href = this.getAttribute('href');
+            if (href && href.startsWith('#')) {
                 e.preventDefault();
-                const targetElement = document.querySelector(targetId);
-                if (targetElement) {
-                    // 隐藏所有展开区域
-                    document.querySelectorAll('[id^="category-"], [id^="tag-"]').forEach(el => {
-                        el.style.display = 'none';
-                    });
-                    // 显示目标区域
-                    targetElement.style.display = 'block';
-                    targetElement.scrollIntoView({ behavior: 'smooth' });
-                }
+                const targetId = href.substring(1);
+                showPopup(targetId);
             }
         });
     });
