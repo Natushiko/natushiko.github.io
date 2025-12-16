@@ -6,18 +6,18 @@ title: 首页
 <div class="content-grid">
     <!-- 左侧: 分类列表 -->
     <div class="panel">
-        <h2>📂 文章分类</h2>
-        <ul class="category-list">
-            {% for category in site.categories %}
-            <li>
-                <a href="#">
-                    {{ category[0] }} 
-                    <span style="color: #999; font-size: 0.9em;">({{ category[1].size }})</span>
-                </a>
-            </li>
-            {% endfor %}
-        </ul>
-    </div>
+    <h2>📂 文章分类</h2>
+    <ul class="category-list">
+        {% for category in site.categories %}
+        <li>
+            <a href="/category.html?category={{ category[0] | slugify }}">
+                {{ category[0] }} 
+                <span style="color: #999; font-size: 0.9em;">({{ category[1].size }})</span>
+            </a>
+        </li>
+        {% endfor %}
+    </ul>
+</div>
 
     <!-- 中间: 最近3篇文章 -->
     <div class="panel">
@@ -58,16 +58,16 @@ title: 首页
 
     <!-- 右侧: 标签云 -->
     <div class="panel">
-        <h2>🏷️ 热门标签</h2>
-        <div class="tag-cloud">
-            {% for tag in site.tags %}
-            <span class="tag-item">
-                <a href="#" style="color: #333;">
-                    {{ tag[0] }} 
-                    <span style="color: #999;">({{ tag[1].size }})</span>
-                </a>
-            </span>
-            {% endfor %}
-        </div>
+    <h2>🏷️ 热门标签</h2>
+    <div class="tag-cloud">
+        {% for tag in site.tags %}
+        <span class="tag-item">
+            <a href="/tag.html?tag={{ tag[0] | slugify }}" style="color: #333;">
+                {{ tag[0] }} 
+                <span style="color: #999;">({{ tag[1].size }})</span>
+            </a>
+        </span>
+        {% endfor %}
     </div>
+</div>
 </div>

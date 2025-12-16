@@ -191,44 +191,53 @@
 
     <script>
         // 北京时间显示
-        function updateBeijingTime() {
-            const now = new Date();
-            const beijingTime = new Date(now.toLocaleString("en-US", {timeZone: "Asia/Shanghai"}));
-            const timeString = beijingTime.toLocaleString('zh-CN', {
-                year: 'numeric',
-                month: '2-digit',
-                day: '2-digit',
-                hour: '2-digit',
-                minute: '2-digit',
-                second: '2-digit',
-                hour12: false
-            });
-            document.getElementById('beijing-time').textContent = timeString;
-        }
-        
-        setInterval(updateBeijingTime, 1000);
-        updateBeijingTime();
+function updateBeijingTime() {
+    const now = new Date();
+    const options = {
+        timeZone: 'Asia/Shanghai',
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit',
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit',
+        hour12: false
+    };
+    const timeString = new Intl.DateTimeFormat('zh-CN', options).format(now);
+    document.getElementById('beijing-time').textContent = timeString;
+}
 
-        // 网站运行时间计算 (从2025年12月1日开始)
-        function updateSiteRuntime() {
-            const startDate = new Date('2025-12-01T00:00:00');
-            const now = new Date();
-            const diff = now - startDate;
-            
-            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-            const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-            
-            let runtimeString = '';
-            if (days > 0) runtimeString += `${days}天 `;
-            if (hours > 0 || days > 0) runtimeString += `${hours}小时 `;
-            runtimeString += `${minutes}分钟`;
-            
-            document.getElementById('site-runtime').textContent = runtimeString;
-        }
-        
-        setInterval(updateSiteRuntime, 60000); // 每分钟更新一次
-        updateSiteRuntime();
+// 确保DOM加载完成后再执行
+document.addEventListener('DOMContentLoaded', function() {
+    updateBeijingTime();
+    setInterval(updateBeijingTime, 1000);
+    
+    updateSiteRuntime();
+    setInterval(updateSiteRuntime, 60000);
+});
+
+// 网站运行时间计算 (从2025年12月1日开始)
+function updateSiteRuntime() {
+    const startDate = new Date('2025-12-01T00:00:00+08:00'); // 明确指定时区
+    const now = new Date();
+    const diff = now - startDate;
+    
+    if (diff < 0) {
+        document.getElementById('site-runtime').textContent = '网站即将上线';
+        return;
+    }
+    
+    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+    
+    let runtimeString = '';
+    if (days > 0) runtimeString += `${days}天 `;
+    if (hours > 0 || days > 0) runtimeString += `${hours}小时 `;
+    runtimeString += `${minutes}分钟`;
+    
+    document.getElementById('site-runtime').textContent = runtimeString;
+}
     </script>
 </body>
 </html>
