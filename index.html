@@ -8,8 +8,7 @@ title: 首页
 body {
   background-color: #f9f5e9;
   background-image: 
-    linear-gradient(rgba(255,255,255,0.9), rgba(255,255,255,0.9)),
-    url('/sources/img/paper.png');
+    linear-gradient(rgba(255,255,255,0.9), rgba(255,255,255,0.9));
   font-family: 'Noto Serif SC', 'SimSun', serif;
   line-height: 1.8;
   text-align: justify;
@@ -34,28 +33,21 @@ body {
   text-shadow: 1px 1px 1px rgba(0,0,0,0.1);
 }
 
-/* 网站标题区 */
+/* 网站标题区 - 移除h1标题避免重复 */
 .site-header {
   text-align: center;
-  padding: 40px 0 30px;
+  padding: 20px 0 30px;
   border-bottom: 2px solid #d4c5b9;
   margin-bottom: 40px;
 }
 
-.site-header h1 {
-  font-size: 2.8em;
-  color: #5c3d2e;
-  margin-bottom: 10px;
-  font-weight: normal;
-  letter-spacing: 5px;
-  font-family: 'STKaiti', 'KaiTi', serif;
-}
-
 .site-header .subtitle {
-  font-size: 1.4em;
+  font-size: 1.8em; /* 增大副标题字号 */
   color: #8b4513;
   font-style: italic;
   margin-bottom: 15px;
+  font-family: 'STKaiti', 'KaiTi', serif;
+  letter-spacing: 3px;
 }
 
 .site-header .description {
@@ -66,36 +58,24 @@ body {
   display: inline-block;
 }
 
-/* 两栏布局 - 左侧边栏30%，右侧主内容70% */
-.main-container {
+/* 三栏布局 */
+.content-grid {
   display: grid;
-  grid-template-columns: 30% 70%;
-  gap: 30px;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 35px;
   margin-bottom: 50px;
 }
 
-/* 左侧边栏 */
-.sidebar {
-  display: flex;
-  flex-direction: column;
-  gap: 25px;
-}
-
-/* 边栏面板 */
-.sidebar .panel {
+/* 面板样式 */
+.panel {
   background: rgba(255, 253, 248, 0.85);
   padding: 25px;
   border-radius: 4px;
   border: 1px solid #e8dfd0;
   box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-  transition: all 0.3s ease;
 }
 
-.sidebar .panel:hover {
-  box-shadow: 0 4px 10px rgba(0,0,0,0.08);
-}
-
-.sidebar .panel h2 {
+.panel h2 {
   color: #5c3d2e;
   margin-bottom: 20px;
   padding-bottom: 10px;
@@ -105,27 +85,8 @@ body {
   text-align: left;
 }
 
-/* 右侧主内容区 */
-.main-content .panel {
-  background: rgba(255, 253, 248, 0.85);
-  padding: 25px;
-  border-radius: 4px;
-  border: 1px solid #e8dfd0;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-}
-
-.main-content .panel h2 {
-  color: #5c3d2e;
-  margin-bottom: 20px;
-  padding-bottom: 10px;
-  border-bottom: 1px solid #d4c5b9;
-  font-family: 'STKaiti', 'KaiTi', serif;
-  font-size: 1.4em;
-  text-align: left;
-}
-
-/* 分类列表 */
-.category-list {
+/* 分类和标签列表 */
+.category-list, .tag-cloud {
   list-style: none;
 }
 
@@ -134,27 +95,17 @@ body {
   border-bottom: 1px dashed #e8dfd0;
 }
 
-.category-list li:last-child {
-  border-bottom: none;
-}
-
 .category-list a {
   color: #5c3d2e;
   text-decoration: none;
   display: block;
-  transition: all 0.3s;
   padding: 5px;
-  border-radius: 3px;
+  transition: all 0.3s;
 }
 
 .category-list a:hover {
   background: rgba(139, 69, 19, 0.05);
   color: #8b4513;
-}
-
-/* 标签云 */
-.tag-cloud {
-  text-align: center;
 }
 
 .tag-item {
@@ -188,20 +139,10 @@ body {
   border-bottom: 1px dashed #e8dfd0;
 }
 
-.recent-posts .post-item:last-child {
-  border-bottom: none;
-}
-
-.recent-posts h3 {
-  margin-bottom: 10px;
-  text-align: left;
-}
-
 .recent-posts h3 a {
   color: #5c3d2e;
   text-decoration: none;
   font-size: 1.15em;
-  transition: color 0.3s;
 }
 
 .recent-posts h3 a:hover {
@@ -213,10 +154,9 @@ body {
   color: #8b4513;
   font-size: 0.9em;
   margin-top: 10px;
-  text-align: left;
 }
 
-/* 弹出内容 - 信纸样式 */
+/* 弹出内容 - 显示在顶部 */
 .popup-content {
   display: none;
   background: rgba(255, 253, 248, 0.95);
@@ -247,7 +187,6 @@ body {
   cursor: pointer;
   padding: 5px;
   border-radius: 50%;
-  transition: all 0.3s;
 }
 
 .close-btn:hover {
@@ -255,20 +194,10 @@ body {
   background: #8b4513;
 }
 
-/* 响应式设计 */
+/* 响应式 */
 @media (max-width: 768px) {
-  .main-container {
-    grid-template-columns: 1fr; /* 移动端单列 */
-  }
-  
-  .site-header h1 {
-    font-size: 2em;
-    letter-spacing: 3px;
-  }
-  
-  .time-header {
-    font-size: 1em;
-    padding: 12px 0;
+  .content-grid {
+    grid-template-columns: 1fr;
   }
 }
 
@@ -277,7 +206,6 @@ footer {
   text-align: center;
   padding: 40px 0 30px;
   color: #8b4513;
-  font-size: 0.9em;
   border-top: 1px solid #d4c5b9;
   margin-top: 60px;
 }
@@ -288,87 +216,121 @@ footer {
   🕐 北京时间: <span id="beijing-time">加载中...</span>
 </div>
 
-<!-- 网站标题区 -->
+<!-- 移除重复的 <h1>{{ site.title }}</h1> -->
 <header class="site-header">
-  <h1>{{ site.title }}</h1>
   <p class="subtitle">柳暗花明又一村</p>
   <p class="description">{{ site.description }}</p>
 </header>
 
-<!-- 弹出内容显示区域 -->
-<div id="popup-container"></div>
-
-<!-- 两栏布局 -->
-<div class="main-container">
-  <!-- 左侧边栏（30%） -->
-  <aside class="sidebar">
-    <!-- 上部：热门标签 -->
-    <div class="panel">
-      <h2>🏷️ 热门标签</h2>
-      <div class="tag-cloud">
-        {% for tag in site.tags %}
-        <span class="tag-item">
-          <a href="#tag-{{ tag[0] | slugify }}" data-target="tag-{{ tag[0] | slugify }}" style="color: #5c3e2e;">
-            {{ tag[0] }} <!-- 移除数量显示 -->
-          </a>
-        </span>
-        {% endfor %}
-      </div>
-    </div>
-
-    <!-- 下部：文章分类 -->
-    <div class="panel">
-      <h2>📂 文章分类</h2>
-      <ul class="category-list">
-        {% for category in site.categories %}
-        <li>
-          <a href="#category-{{ category[0] | slugify }}" data-target="category-{{ category[0] | slugify }}">
-            {{ category[0] }} <!-- 移除数量显示 -->
-          </a>
-        </li>
-        {% endfor %}
-      </ul>
-    </div>
-  </aside>
-
-  <!-- 右侧主内容区（70%） -->
-  <main class="main-content">
-    <div class="panel">
-      <h2>📝 最新文章</h2>
-      <div class="recent-posts">
-        {% for post in site.posts limit:5 %}
-        <div class="post-item">
-          <h3><a href="{{ post.url }}">{{ post.title }}</a></h3>
-          <div class="post-meta">
-            <span>📅 {{ post.date | date: "%Y-%m-%d" }}</span>
-            <span>✍️ {{ site.author }}</span>
-          </div>
-          {% if post.categories.size > 0 %}
-          <div class="post-meta">
-            <span>🏷️ 分类: 
-              {% for category in post.categories %}
-              <a href="#category-{{ category | slugify }}" style="color: #8b4513;">{{ category }}</a>{% unless forloop.last %}, {% endunless %}
-              {% endfor %}
-            </span>
-          </div>
-          {% endif %}
-          {% if post.tags.size > 0 %}
-          <div class="post-meta">
-            <span>🔖 标签: 
-              {% for tag in post.tags %}
-              <a href="#tag-{{ tag | slugify }}" style="color: #8b4513;">{{ tag }}</a>{% unless forloop.last %}, {% endunless %}
-              {% endfor %}
-            </span>
-          </div>
-          {% endif %}
-          <p style="margin-top: 12px; color: #5c3e2e; text-align: justify;">
-            {{ post.excerpt | strip_html | truncatewords: 25 }}
-          </p>
+<!-- 弹出内容显示区域 - 补上缺失的分类和标签内容 -->
+<div id="popup-container" style="margin-bottom: 30px;">
+    <!-- 分类弹出内容 -->
+    {% for category in site.categories %}
+    <div id="category-{{ category[0] | slugify }}" class="popup-content">
+        <h2>分类: {{ category[0] }}</h2>
+        <a href="#" onclick="hidePopup('category-{{ category[0] | slugify }}'); return false;" class="close-btn">✕</a>
+        <div style="clear: both;"></div>
+        
+        {% for post in category[1] %}
+        <div class="post-item" style="margin: 20px 0; padding: 20px 0; border-bottom: 1px dashed #e8dfd0;">
+            <h3 style="margin-bottom: 8px;">
+                <a href="{{ post.url }}" style="color: #5c3e2e; text-decoration: none; font-size: 1.1em;">{{ post.title }}</a>
+            </h3>
+            <div style="color: #8b4513; font-size: 0.9em;">
+                📅 {{ post.date | date: "%Y-%m-%d" }}
+            </div>
         </div>
         {% endfor %}
-      </div>
     </div>
-  </main>
+    {% endfor %}
+    
+    <!-- 标签弹出内容 -->
+    {% for tag in site.tags %}
+    <div id="tag-{{ tag[0] | slugify }}" class="popup-content">
+        <h2>标签: {{ tag[0] }}</h2>
+        <a href="#" onclick="hidePopup('tag-{{ tag[0] | slugify }}'); return false;" class="close-btn">✕</a>
+        <div style="clear: both;"></div>
+        
+        {% for post in tag[1] %}
+        <div class="post-item" style="margin: 20px 0; padding: 20px 0; border-bottom: 1px dashed #e8dfd0;">
+            <h3 style="margin-bottom: 8px;">
+                <a href="{{ post.url }}" style="color: #5c3e2e; text-decoration: none; font-size: 1.1em;">{{ post.title }}</a>
+            </h3>
+            <div style="color: #8b4513; font-size: 0.9em;">
+                📅 {{ post.date | date: "%Y-%m-%d" }}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% endfor %}
+</div>
+
+<!-- 主要内容网格 -->
+<div class="content-grid">
+    <!-- 左侧: 文章分类 -->
+    <div class="panel">
+        <h2>📂 文章分类</h2>
+        <ul class="category-list">
+            {% for category in site.categories %}
+            <li>
+                <a href="#category-{{ category[0] | slugify }}" data-target="category-{{ category[0] | slugify }}">
+                    {{ category[0] }} <!-- 移除数量显示 -->
+                </a>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <!-- 中间: 热门标签 -->
+    <div class="panel">
+        <h2>🏷️ 热门标签</h2>
+        <div class="tag-cloud">
+            {% for tag in site.tags %}
+            <span class="tag-item">
+                <a href="#tag-{{ tag[0] | slugify }}" data-target="tag-{{ tag[0] | slugify }}" style="color: #5c3e2e;">
+                    {{ tag[0] }} <!-- 移除数量显示 -->
+                </a>
+            </span>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- 右侧: 最新文章 -->
+    <div class="panel">
+        <h2>📝 最新文章</h2>
+        <div class="recent-posts">
+            {% for post in site.posts limit:5 %}
+            <div class="post-item">
+                <h3><a href="{{ post.url }}">{{ post.title }}</a></h3>
+                <div class="post-meta">
+                    <span>📅 {{ post.date | date: "%Y-%m-%d" }}</span>
+                    <span>✍️ {{ site.author }}</span>
+                </div>
+                {% if post.categories.size > 0 %}
+                <div class="post-meta">
+                    <span>🏷️ 分类: 
+                        {% for category in post.categories %}
+                        <a href="#category-{{ category | slugify }}" style="color: #8b4513;">{{ category }}</a>{% unless forloop.last %}, {% endunless %}
+                        {% endfor %}
+                    </span>
+                </div>
+                {% endif %}
+                {% if post.tags.size > 0 %}
+                <div class="post-meta">
+                    <span>🔖 标签: 
+                        {% for tag in post.tags %}
+                        <a href="#tag-{{ tag | slugify }}" style="color: #8b4513;">{{ tag }}</a>{% unless forloop.last %}, {% endunless %}
+                        {% endfor %}
+                    </span>
+                </div>
+                {% endif %}
+                <p style="margin-top: 12px; color: #5c3e2e; text-align: justify;">
+                    {{ post.excerpt | strip_html | truncatewords: 25 }}
+                </p>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
 </div>
 
 <script>
