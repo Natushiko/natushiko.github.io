@@ -549,4 +549,100 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   });
 });
+
+// 搜索功能
+// 在页面加载时生成文章数据
+let allArticles = [];
+
+// 使用Jekyll Liquid生成文章数据数组
+{% for post in site.posts %}
+allArticles.push({
+  title: {{ post.title | jsonify }},
+  url: {{ post.url | relative_url | jsonify }},
+  date: {{ post.date | date: "%Y-%m-%d" | jsonify }},
+  categories: {{ post.categories | jsonify }},
+  tags: {{ post.tags | jsonify }},
+  excerpt: {{ post.excerpt | strip_html | truncatewords: 50 | jsonify }},
+  content: {{ post.content | strip_html | truncatewords: 200 | jsonify }}
+});
+{% endfor %}
+
+// 搜索功能
+function performSearch() {
+  const searchTerm = document.getElementById('searchInput').value.trim().toLowerCase();
+  const resultsContainer = document.getElementById('searchResults');
+  
+  if (!searchTerm) {
+    resultsContainer.classList.remove('active');
+    resultsContainer.innerHTML = '';
+    return;
+  }
+  
+  // 过滤文章
+  const results = allArticles.filter(article => {
+    return article.title.toLowerCase().includes(searchTerm) ||
+           article.content.toLowerCase().includes(searchTerm) ||
+           article.tags.some(tag => tag.toLowerCase().includes(searchTerm)) ||
+           article.categories.some(cat => cat.toLowerCase().includes(searchTerm));
+  });
+  
+  // 显示结果
+  displayResults(results, searchTerm);
+}
+
+// 实时搜索
+document.getElementById('searchInput').addEventListener('input', function() {
+  performSearch();
+});
+
+// 显示搜索结果
+function displayResults(results, searchTerm) {
+  const resultsContainer = document.getElementById('searchResults');
+  resultsContainer.classList.add('active');
+  
+  if (results.length === 0) {
+    resultsContainer.innerHTML = '<div class="no-results">未找到匹配的文章 😔</div>';
+    return;
+  }
+  
+  let html = `<h2 style="color: #5c3d2e; margin-bottom: 20px;">找到 ${results.length} 篇文章</h2>`;
+  
+  results.forEach(article => {
+    const highlightedTitle = highlightKeyword(article.title, searchTerm);
+    const highlightedExcerpt = highlightKeyword(article.excerpt, searchTerm);
+    
+    html += `
+      <div class="search-result-item">
+        <h3><a href="${article.url}" style="color: #5c3d2e; text-decoration: none;">${highlightedTitle}</a></h3>
+        <div class="meta">
+          📅 ${article.date} | 
+          🏷️ ${article.categories.join(', ')} | 
+          🔖 ${article.tags.join(', ')}
+        </div>
+        <p>${highlightedExcerpt}</p>
+        <a href="${article.url}" class="read-more">阅读全文 →</a>
+      </div>
+    `;
+  });
+  
+  resultsContainer.innerHTML = html;
+}
+
+// 高亮关键词
+function highlightKeyword(text, keyword) {
+  if (!keyword) return text;
+  const regex = new RegExp(`(${keyword})`, 'gi');
+  return text.replace(regex, '<span class="highlight">$1</span>');
+}
+
+// 点击搜索框外部隐藏结果
+document.addEventListener('click', function(e) {
+  if (!e.target.closest('.search-container')) {
+    const resultsContainer = document.getElementById('searchResults');
+    if (!e.target.closest('.search-results')) {
+      resultsContainer.classList.remove('active');
+    }
+  }
+});
+
 </script>
