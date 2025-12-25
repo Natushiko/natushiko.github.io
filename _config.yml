@@ -10,3 +10,7 @@ permalink: /:year/:month/:day/:title/
 
 # 分页 (每页文章数)
 paginate: 5
+
+# 允许HTML块内解析Markdown
+kramdown:
+  parse_block_html: true  
